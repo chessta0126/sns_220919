@@ -25,7 +25,7 @@ public class TestController {
 	}
 
 	// 2. JSON 확인 : @ResponseBody + String return
-	// http://localhost:8080/test1
+	// http://localhost:8080/test2
 	@GetMapping("/test2")
 	@ResponseBody
 	public Map<String,Object> test2() {
