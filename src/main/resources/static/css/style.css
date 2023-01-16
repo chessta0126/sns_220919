@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+header {height:120px; background-color: #999;}
+.contents{height:600px; background-color: #fff;}
+.signUpParameterMenu{
+	background-color: #999;
+	font-weight: bold;
+	}
+
+footer{height:120px; background-color: #999;}
