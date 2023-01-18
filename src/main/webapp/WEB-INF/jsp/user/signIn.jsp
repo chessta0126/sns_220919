@@ -59,7 +59,7 @@
 			$.post(url, params)   // request
 			.done(function(data) {  // response
 				if (data.code == 1) { // 성공
-					location.href = "/post/post_list_view"; // 글 목록으로 이동
+					location.href = "/timeline/timeline_view";
 				} else { // 실패
 					alert(data.errorMessage);
 				}

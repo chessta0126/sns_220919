@@ -3,9 +3,15 @@ package com.sns.post.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostDAO {
 	public List<Map<String,Object>> selectPostListTest();
+	
+	public boolean insertPost(
+			@Param("userId") String userId
+			, @Param("content") String content
+			, @Param("imagePath") String imagePath);
 }
