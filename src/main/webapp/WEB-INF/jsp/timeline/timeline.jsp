@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
 <div class="d-flex justify-content-center">
 	<div class="contents-box">
@@ -28,15 +29,15 @@
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
 			<%-- 카드1 --%>
+			<c:forEach items="${postList}" var="post">
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
 				<div class="p-2 d-flex justify-content-between">
-					<span class="font-weight-bold">${userName}</span>
+					<span class="font-weight-bold">${post.userId}</span>
 
 					<%-- 더보기 --%>
-					<a href="#" class="more-btn" data-toggle="modal"
-						data-target="#modal" data-post-id="${card.post.id}"> <img
-						src="../more-icon.png"
+					<a href="#" class="more-btn">
+					<img src="https://www.iconninja.com/files/860/824/939/more-icon.png"
 						width="30">
 					</a>
 				</div>
@@ -44,15 +45,27 @@
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
 					<img
-						src="https://cdn.pixabay.com/photo/2022/04/13/20/32/silhouette-7131109_960_720.png"
+						src="${post.imagePath}"
 						class="w-100" alt="본문 이미지">
 				</div>
 
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn"> <img
-						src="https://www.iconninja.com/files/214/518/441/heart-icon.png"
+					<a href="#" class="like-btn">
+						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png"
 						width="18" height="18" alt="empty heart">
+						
+						좋아요 10개
+					</a>
+				</div>
+
+				<%-- 글 --%>
+				<div class="card-post m-3">
+					<span class="font-weight-bold">${post.userId}</span>
+					<span>${post.content}</span>
+				</div>
+
+				<%-- 댓글 --%>
 						<div class="card-comment-list m-2">
 							<div class="card-comment m-1">
 								<span class="font-weight-bold">댓글쓰니:</span>
@@ -67,15 +80,18 @@
 							</div>
 
 							<%-- 댓글 쓰기 --%>
-							<div class="comment-write d-flex border-top mt-2">
-								<input type="text" class="form-control border-0 mr-2"
-									placeholder="댓글 달기" />
-								<button type="button" class="comment-btn btn btn-light"
-									data-post-id="${card.post.id}">게시</button>
-							</div>
+							<c:if test="${not empty userId}">
+								<div class="comment-write d-flex border-top mt-2">
+									<input type="text" class="form-control border-0 mr-2"
+										placeholder="댓글 달기" />
+									<button type="button" class="comment-btn btn btn-light"
+										data-post-id="${post.id}">게시</button>
+								</div>
+							</c:if>
 						</div> <%--// 댓글 목록 끝 --%>
 				</div>
 				<%--// 카드1 끝 --%>
+				</c:forEach>
 			</div>
 			<%--// 타임라인 영역 끝  --%>
 		</div>
@@ -110,26 +126,70 @@
 		});
 		
 		// 글 게시 insert
-		$('#writeBtn').on('click', function(e) {
-			let userName = ${userName};
-			let content = writeTextArea.val();
-			let file = fileName.val();
-
-			// AJAX 통신
+		$('#writeBtn').on('click', function() {
+			// validation 
+			let content = $('#writeTextArea').val();
+			console.log(content);
+			if (content.length < 1) {
+				alert("글 내용을 입력해주세요");
+				return;
+			}
+			
+			let file = $('#file').val();
+			if (file == '') {
+				alert('파일을 업로드 해주세요');
+				return;
+			}
+			
+			// 파일이 업로드 된 경우 확장자 체크
+			let ext = file.split('.').pop().toLowerCase(); // 파일 경로를 .으로 나누고 확장자가 있는 마지막 문자열을 가져온 후 모두 소문자로 변경
+			if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+				alert("gif, png, jpg, jpeg 파일만 업로드 할 수 있습니다.");
+				$('#file').val(''); // 파일을 비운다.
+				return;
+			}
+			
+			// 폼태그를 자바스크립트에서 만든다.
+			let formData = new FormData();
+			formData.append("content", content);
+			formData.append("file", $('#file')[0].files[0]); // $('#file')[0]은 첫번째 input file 태그를 의미, files[0]는 업로드된 첫번째 파일
+			
+			// AJAX form 데이터 전송
 			$.ajax({
-				// request
-				url : "/post/add_post"
-				, data : {"userName" : userName, "content" : content, "file" : file}
-
-				// response
-				, success : function(data) {
-					alert("게시물이 업로드 되었습니다.");
-					location.href="/timeline/timeline_view"
+				type: "post"
+				, url: "/post/create"
+				, data: formData
+				, enctype: "multipart/form-data"    // 파일 업로드를 위한 필수 설정
+				, processData: false    // 파일 업로드를 위한 필수 설정
+				, contentType: false    // 파일 업로드를 위한 필수 설정
+				, success: function(data) {
+					if (data.code == 1) {
+						location.reload();
+					} else if (data.code == 500) { // 비로그인 일 때
+						location.href = "/user/sign_in_view";
+					} else {
+						alert(data.errorMessage);
+					}
 				}
-				,error:function(e){
-					alert("게시물 업로드에 실패했습니다.");
+				, error: function(e) {
+					alert("글 저장에 실패했습니다. 관리자에게 문의해주세요.");
 				}
-			});
+			});  // --- ajax 끝
+		}); //--- 글쓰기 버튼 끝
+		
+		// 댓글 쓰기
+		$('.comment-btn').on('click', function() {
+			// 글 번호, 댓글 내용
+			let postId = $(this).data('post-id');
+			alert(postId);
+			
+			// siblings : 지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다.
+			let comment = $(this).siblings('input').val().trim();
+			// alert(comment);
+			
+			if(comment == ''){
+				alert("댓글 내용을 입력하세요");
+			}
 		});
 	});
 </script>
