@@ -1,21 +1,27 @@
-package com.sns.post.model;
+package com.sns.comment.model;
 
 import java.util.Date;
 
-// Entity: 테이블에서 바로 가져온 값(가공되지 않음)
-	public class Post {
+// Entity
+public class Comment {
 	private int id;
+	private int postId;
 	private int userId;
 	private String content;
-	private String imagePath;
 	private Date createdAt;
 	private Date updatedAt;
-	
+
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getPostId() {
+		return postId;
+	}
+	public void setPostId(int postId) {
+		this.postId = postId;
 	}
 	public int getUserId() {
 		return userId;
@@ -28,12 +34,6 @@ import java.util.Date;
 	}
 	public void setContent(String content) {
 		this.content = content;
-	}
-	public String getImagePath() {
-		return imagePath;
-	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
