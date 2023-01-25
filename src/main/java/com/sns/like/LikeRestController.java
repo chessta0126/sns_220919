@@ -1,5 +1,6 @@
 package com.sns.like;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,8 @@ public class LikeRestController {
 	public Map<String,Object> like(
 			@PathVariable int postId
 			){
-		
+		Map<String,Object> result = new HashMap<>();
+		return result;
 	}
 	
 }

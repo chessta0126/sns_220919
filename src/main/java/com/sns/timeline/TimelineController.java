@@ -15,6 +15,8 @@ public class TimelineController {
 
 	@Autowired
 	private PostBO postBO;
+	
+	@Autowired
 	private TimelineBO timelineBO;
 
 	@GetMapping("/timeline/timeline_view")
