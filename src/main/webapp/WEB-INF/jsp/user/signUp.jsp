@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <div class="d-flex justify-content-center">
 	<div class="sign-up-box">
-		<h1 class="mb-4">회원가입</h1>
+		<h2 class="m-3 font-weight-bold">회원가입</h2>
 		<form id="signUpForm" method="post" action="/user/sign_up">
 			<table class="sign-up-table table table-bordered">
 				<tr>
@@ -38,9 +38,8 @@
 					<td><input type="text" id="email" name="email" class="form-control" placeholder="이메일 주소를 입력하세요."></td>
 				</tr>
 			</table>
-			<br>
 
-			<button type="submit" id="signUpBtn" class="btn btn-primary float-right">회원가입</button>
+			<button type="submit" id="signUpBtn" class="btn btn-primary float-right m-3">회원가입</button>
 		</form>
 	</div>
 </div>
@@ -88,7 +87,7 @@
 		$('#signUpForm').on('submit', function(e) {
 			e.preventDefault(); // submit 기능 중단
 			
-			// validation
+			// validation check
 			let loginId = $('#loginId').val().trim();
 			let password = $('#password').val();
 			let confirmPassword = $('#confirmPassword').val();
@@ -101,6 +100,10 @@
 			}
 			if(password == ""){
 				alert("비밀번호를 입력해주세요");
+				return false;
+			}
+			if(confirmPassword == ""){
+				alert("비밀번호를 다시 확인해주세요");
 				return false;
 			}
 			if(password != confirmPassword){
