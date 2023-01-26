@@ -18,4 +18,12 @@ public interface PostDAO {
 			, @Param("imagePath") String imagePath);
 	
 	public List<Post> selectPostList();
+	
+	public Post selectPostByPostIdUserId(
+			@Param("userId") int postId
+			,@Param("userId") int userId);
+	
+	public void deletePostByPostIdUserId(
+			@Param("userId") int postId
+			,@Param("userId") int userId);
 }

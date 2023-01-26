@@ -34,7 +34,7 @@ public class TimelineBO {
 	public List<CardView> generateCardList(Integer userId) {
 		List<CardView> cardViewList = new ArrayList<>();
 
-		// 글목록 가져오기(post)
+		// 글 목록 가져오기(post)
 		List<Post> postList = postBO.getPostList();
 
 		// postList 반복문 => CardView => cardViewList에 넣는다.

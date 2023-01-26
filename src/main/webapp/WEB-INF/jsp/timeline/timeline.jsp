@@ -35,11 +35,12 @@
 				<div class="p-2 d-flex justify-content-between">
 					<span class="font-weight-bold">${card.user.loginId}</span>
 
-					<%-- 더보기 --%>
-					<a href="#" class="more-btn">
-					<img src="https://www.iconninja.com/files/860/824/939/more-icon.png"
-						width="30">
+					<%-- 더보기(내가 쓴 글일 때만 노출) --%>
+					<c:if test="${userId eq card.user.id}">
+					<a href="#" class="more-btn" data-toggle="modal" data-target="#modal" data-post-id="${card.post.id}">
+						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
 					</a>
+					</c:if>
 				</div>
 
 				<%-- 카드 이미지 --%>
@@ -112,6 +113,25 @@
 		</div>
 	</div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal">
+<%-- modal-sm : 작은 모달 창 --%>
+<%-- modal-modal-dialog-centered : 모달 창을 수직으로 가운데 정렬 --%>
+	<div class="modal-dialog modal-sm modal-dialog-centered">
+		<div class="modal-content text-center">
+      		<div class="py-3 border-bottom">
+      			<a href="#" id="deletePostBtn">삭제하기</a>
+      		</div>
+      		<div class="py-3">
+      			<%-- data-dismiss="modal" : modal창 닫힘 --%>
+      			<a href="#" data-dismiss="modal">취소하기</a>
+      		</div>
+		</div>
+	</div>
+</div>
+
 
 <script>
 	$(document).ready(function() {
@@ -249,6 +269,48 @@
 				, success:function(data) {
 					if (data.code == 1) {
 						location.reload(true);
+					} else {
+						alert(data.errorMessage);	
+					}
+				}
+				, error: function(e) {
+					alert("좋아요/해제 하는데 실패했습니다.");
+				}
+			});
+		});
+		
+		// 더보기 버튼(... 클릭) -> 글 삭제를 위해
+		$('.more-btn').on('click',function(e){
+			e.preventDefault();
+			
+			// getting
+			let postId = $(this).data("post-id");
+			// alert(postId);
+			
+			// setting : modal 태그에 data-post-id 심어줌
+			$('#modal').data("post-id", postId);
+		});
+		
+		// modal 안에 있는 삭제하기 버튼 클릭
+		$('#modal #deletePostBtn').on('click',function(e){
+			e.preventDefault();
+			
+			let postId = $('#modal').data('post-id');
+			// alert("postId:" + postId);
+			let userId = ${userId};
+			// alert("userId : " + userId);			
+			
+			// AJAX - 글 삭제
+			$.ajax({
+				// request
+				type:'DELETE'
+				,url:'/post/delete'
+				,data: {"postId":postId,"userId":userId}
+				
+				// response
+				, success:function(data) {
+					if (data.code == 1) {
+						
 					} else {
 						alert(data.errorMessage);	
 					}
