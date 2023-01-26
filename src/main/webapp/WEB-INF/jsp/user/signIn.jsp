@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div class="d-flex justify-content-center">
 	<div class="login-box">
-		<h1 class="mb-4">로그인</h1>
+		<h1 class="mt-4 mb-4">로그인</h1>
 		
 		<%-- 키보드 Enter키로 로그인이 될 수 있도록 form 태그를 만들어준다.(submit 타입의 버튼이 동작됨) --%>
 		<form id="loginForm" action="/user/sign_in" method="post">
@@ -27,7 +27,6 @@
 		</form>
 	</div>
 </div>
-</div>
 
 <script>
 	$(document).ready(function() {
@@ -35,7 +34,7 @@
 			// 서브밋 기능 중단
 			e.preventDefault();
 			
-			// validation
+			// validation check
 			// return false;
 			let loginId = $("input[name=loginId]").val().trim();
 			let password = $('#password').val();
