@@ -27,7 +27,7 @@ public class FileManagerService {
 		String filePath = FILE_UPLOAD_PATH + directoryName;
 
 		File directory = new File(filePath);
-		directory.mkdir(); // 폴더 만들기 성공여부
+		// directory.mkdir(); // 폴더 만들기 성공여부
 		if(directory.mkdir() == false) { // 폴더 만들기 실패
 			return null;
 		}

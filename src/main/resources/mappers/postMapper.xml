@@ -8,6 +8,7 @@
  		FROM `post`
  		
  	</select>
+ 	
  	<insert id="insertPost" parameterType="map">
  		INSERT INTO `post`
  		(
@@ -40,7 +41,7 @@
 		ORDER BY `id` DESC
 	</select>
 
- 	<select id="selectPostByPostIdUserId" resultType="com.sns.post.model.Post">
+ 	<select id="selectPostByPostIdUserId" parameterType="map" resultType="com.sns.post.model.Post">
 		SELECT
 			`id`
 			,`userId`
@@ -57,12 +58,6 @@
 	
 	<delete id="deletePostByPostIdUserId" parameterType="map">
 		DELETE
-			`id`
-			,`userId`
-			,`content`
-			,`imagePath`
-			,`createdAt`
-			,`updatedAt`
 		FROM
 			`post`
 		WHERE
