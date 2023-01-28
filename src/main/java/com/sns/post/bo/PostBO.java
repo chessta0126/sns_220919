@@ -60,7 +60,9 @@ public class PostBO {
 		}
 		
 		// 이미지 있으면 이미지 삭제
-		fileManager.deleteFile(post.getImagePath());
+		if(post.getImagePath() != null) {
+			fileManager.deleteFile(post.getImagePath());
+		}
 		
 		// 글 삭제
 		postDAO.deletePostByPostIdUserId(postId, userId);

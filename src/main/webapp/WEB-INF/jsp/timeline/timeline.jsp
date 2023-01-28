@@ -56,14 +56,14 @@
 					<%-- 좋아요가 되어있을 때 --%>
 					<c:if test="${card.filledLike eq true}">
 					<a href="#" class="like-btn" data-user-id="${userId}" data-post-id="${card.post.id}">
-						<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="empty heart">						
+						<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18px" height="18px" alt="filled heart">						
 					</a>
 					</c:if>
 
 					<%-- 좋아요가 해제되어 있을 때 --%>
 					<c:if test="${card.filledLike eq false}">
 					<a href="#" class="like-btn" data-user-id="${userId}" data-post-id="${card.post.id}">
-						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart">						
+						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18px" height="18px" alt="empty heart">						
 					</a>
 					</c:if>
 					
@@ -296,27 +296,25 @@
 			e.preventDefault();
 			
 			let postId = $('#modal').data('post-id');
-			// alert("postId:" + postId);
-			let userId = ${userId};
-			// alert("userId : " + userId);			
+			// alert("postId:" + postId);	
 			
 			// AJAX - 글 삭제
 			$.ajax({
 				// request
-				type:'DELETE'
-				,url:'/post/delete'
-				,data: {"postId":postId,"userId":userId}
+				type:"delete"
+				,url:"/post/delete"
+				,data: {"postId":postId}
 				
 				// response
 				, success:function(data) {
 					if (data.code == 1) {
-						
+						location.reload(true);
 					} else {
 						alert(data.errorMessage);	
 					}
 				}
 				, error: function(e) {
-					alert("좋아요/해제 하는데 실패했습니다.");
+					alert("삭제하는데 실패했습니다. 관리자에게 문의해주세요.");
 				}
 			});
 		});
