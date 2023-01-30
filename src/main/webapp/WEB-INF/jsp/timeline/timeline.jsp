@@ -15,9 +15,10 @@
 					<%-- file 태그는 숨겨두고 이미지를 클릭하면 file 태그를 클릭한 것처럼 이벤트를 줄 것이다. --%>
 					<input type="file" id="file" class="d-none"
 						accept=".gif, .jpg, .png, .jpeg">
-					<%-- 이미지에 마우스 올리면 마우스커서가 링크 커서가 변하도록 a 태그 사용 --%>
+					<%-- 이미지에 마우스 올리면 마우스커서가 링크 커서로 변하도록 a 태그 사용 --%>
 					<a href="#" id="fileUploadBtn"><img width="35"
 						src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png"></a>
+						<!-- src="/images/imgPlus.png"></a> -->
 					<%-- 업로드 된 임시 파일 이름 저장될 곳 --%>
 					<div id="fileName" class="ml-2"></div>
 				</div>
@@ -184,7 +185,7 @@
 				return;
 			}
 			
-			// 폼태그를 자바스크립트에서 만든다.
+			// form태그를 자바스크립트에서 만든다.
 			let formData = new FormData();
 			formData.append("content", content);
 			formData.append("file", $('#file')[0].files[0]); // $('#file')[0]은 첫번째 input file 태그를 의미, files[0]는 업로드된 첫번째 파일

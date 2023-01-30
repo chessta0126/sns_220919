@@ -30,7 +30,7 @@ public class TimelineBO {
 	@Autowired
 	private LikeBO likeBO;
 
-	// 로그인이 되지 않은 사람도 카드 목록이 보여야 한다.
+	// 로그인이 되지 않은 사람도 카드 목록이 보여야 한다. (Integer)
 	public List<CardView> generateCardList(Integer userId) {
 		List<CardView> cardViewList = new ArrayList<>();
 

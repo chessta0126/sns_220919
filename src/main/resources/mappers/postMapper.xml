@@ -6,7 +6,6 @@
  	<select id="selectPostListTest" resultType="map">
  		SELECT *
  		FROM `post`
- 		
  	</select>
  	
  	<insert id="insertPost" parameterType="map">

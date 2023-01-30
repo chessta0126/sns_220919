@@ -27,8 +27,6 @@ public class TimelineController {
 	public String timelineView(Model model, HttpSession session) {
 		List<Post> postList = postBO.getPostList();
 		model.addAttribute("postList", postList);
-		//List<Post> postList = postBO.getPostList();
-		//model.addAttribute("postList", postList);
 
 		List<CardView> cardList = timelineBO.generateCardList((Integer)session.getAttribute("userId"));
 		model.addAttribute("cardList", cardList);
